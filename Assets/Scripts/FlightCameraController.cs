@@ -70,7 +70,7 @@ public class FlightCameraController : MonoBehaviour
         {
             //Debug.Log(velocityVar);
 
-            cameraPivot.position = Vector3.Lerp(cameraPivot.position, transform.position, lerpTime * Time.deltaTime);
+            cameraPivot.position = transform.position;
             cameraPivot.rotation = transform.rotation;
 
             if (readjustInput)
@@ -113,7 +113,7 @@ public class FlightCameraController : MonoBehaviour
         Vector3 localRot = flightModel.localEulerAngles;
         flightModel.localEulerAngles = new Vector3(localRot.x, localRot.y, Mathf.LerpAngle(localRot.z, -input * flightLeanMax, leanLerp * Time.deltaTime));
 
-        //flightModel.localPosition = new Vector3(Mathf.LerpAngle(flightModel.localPosition.x, -yawThrow * 1.5f, lerpTime * Time.deltaTime), flightModel.localPosition.y, 0f);
+        flightModel.localPosition = new Vector3(Mathf.LerpAngle(flightModel.localPosition.x, -input * 1.5f, lerpTime * Time.deltaTime), flightModel.localPosition.y, flightModel.localPosition.z);
         crossHair.localPosition = new Vector3(Mathf.LerpAngle(crossHair.localPosition.x, yawThrow * 3.5f, 0.5f * lerpTime * Time.deltaTime), crossHair.localPosition.y, crossHair.localPosition.z);
 
     }
@@ -123,6 +123,7 @@ public class FlightCameraController : MonoBehaviour
         Vector3 localRot = flightModel.localEulerAngles;
         flightModel.localEulerAngles = new Vector3(Mathf.LerpAngle(localRot.x, -input * flightLeanMax, leanLerp * Time.deltaTime), localRot.y, localRot.z);
 
+        flightModel.localPosition = new Vector3(flightModel.localPosition.x, Mathf.LerpAngle(flightModel.localPosition.y, (-input * 1.5f) - 1.2f, lerpTime * Time.deltaTime), flightModel.localPosition.z);
         crossHair.localPosition = new Vector3(crossHair.localPosition.x, Mathf.LerpAngle(crossHair.localPosition.y, input * 3f, 0.5f * lerpTime * Time.deltaTime), crossHair.localPosition.z);
     }
 

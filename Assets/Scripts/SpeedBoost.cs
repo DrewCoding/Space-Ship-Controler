@@ -14,6 +14,8 @@ public class SpeedBoost : MonoBehaviour
     public float brakeSpeed = 0.15f;
     public float boostRechargeTime = 3f;
     public float boostTime = 3f;
+    [SerializeField] float lerpTime = 3f;
+
 
     float flightSpeed;
     float _boostTime = 3f, _boostRechargeTimer = 0;
@@ -45,10 +47,14 @@ public class SpeedBoost : MonoBehaviour
         }
         else if (brakeInput)
         {
+            flightModel.localPosition = new Vector3(flightModel.localPosition.x, flightModel.localPosition.y, Mathf.LerpAngle(flightModel.localPosition.z, -1f, lerpTime * Time.deltaTime));
+
             flightSpeed = brakeSpeed;
         }
         else
         {
+            flightModel.localPosition = new Vector3(flightModel.localPosition.x, flightModel.localPosition.y, Mathf.LerpAngle(flightModel.localPosition.z, 0f, lerpTime * Time.deltaTime));
+
             flightSpeed = normalSpeed;
         }
 
@@ -68,10 +74,14 @@ public class SpeedBoost : MonoBehaviour
         if (velocityVar > 28f && canBoost) // 28 being the velocity 28 m/s, which is the current speed set by the speed values. May need to change if the speed values are changed.
         {
             flightSpeed = boostSpeed;
+            flightModel.localPosition = new Vector3(flightModel.localPosition.x, flightModel.localPosition.y, Mathf.LerpAngle(flightModel.localPosition.z, 1.5f, lerpTime * Time.deltaTime));
+
             _boostTime -= Time.deltaTime;
         }
         else
         {
+            flightModel.localPosition = new Vector3(flightModel.localPosition.x, flightModel.localPosition.y, Mathf.LerpAngle(flightModel.localPosition.z, 0f, lerpTime * Time.deltaTime));
+
             flightSpeed = normalSpeed;
         }
     }
